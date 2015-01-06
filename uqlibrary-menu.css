@@ -1,10 +1,10 @@
 a {
   text-decoration: none;
-  color: black; }
+  color: rgba(0, 0, 0, 0.87); }
 
 .inverse a {
   text-decoration: none;
-  color: white; }
+  color: rgba(255, 255, 255, 0.87); }
 
 h1 {
   font-family: "Roboto light";
@@ -174,29 +174,23 @@ core-menu {
   padding: 8px 0;
   margin: 0; }
   core-menu.divider {
-    border-bottom: 1px solid #F5F5F5; }
+    border-bottom: 1px solid whitesmoke; }
 
 paper-item {
-  font-family: "Roboto regular";
-  font-size: 2.6em;
-  line-height: 1.1em;
-  color: rgba(0, 0, 0, 0.87); }
-
-paper-item {
+  font-family: "Roboto medium";
   font-size: 1em;
+  color: rgba(0, 0, 0, 0.87);
+  line-height: 1.1em;
   color: rgba(0, 0, 0, 0.87); }
   paper-item core-icon {
     margin-right: 2em; }
-  paper-item a {
-    text-decoration: none;
-    color: rgba(0, 0, 0, 0.87) !important; }
 
 #account {
   padding: 8px;
   font-size: 0.875em;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #49075E;
-  border-bottom: 1px solid #F5F5F5; }
+  background-color: #7b1fa2;
+  border-bottom: 1px solid whitesmoke; }
   #account core-icon {
     height: 64px;
     width: 64px; }
@@ -212,5 +206,3 @@ paper-item {
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden; }
-
-/*# sourceMappingURL=uqlibrary-menu.css.map */

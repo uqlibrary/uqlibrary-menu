@@ -13,16 +13,9 @@ core-menu {
 }
 
 paper-item {
-  font-size: 0.875em;
-  color: $text;
-
+  @include gmd-type-style(menu, gmd-alpha-color($black, text));
   core-icon {
     margin-right: 2em;
-  }
-
-  a {
-    text-decoration: none;
-    color: $text !important;
   }
 }
 

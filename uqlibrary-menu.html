@@ -24,11 +24,13 @@ Element providing a the library main apps menu
 
     <template if="{{account.hasSession}}">
       <div horizontal layout id="account">
-        <div id="icon"><core-icon icon="account-circle" class="active"></core-icon></div>
-        <div id="details" class="body1" flex>
+        <!--<div id="icon"><core-icon icon="account-circle" class="active"></core-icon></div>-->
+        <!--<div id="icon"><core-icon icon="lock" class="active"></core-icon></div>-->
+        <paper-icon-button icon="lock" title="Logout" on-tap="{{askLogout}}"></paper-icon-button>
+        <div id="details" flex>
           <div>
-            <div id="name">{{account.name}}</div>
-            <div id="mail">{{account.mail}}</div>
+            <div id="name" class="body2">{{account.name}}</div>
+            <div id="mail" class="body1">{{account.mail}}</div>
           </div>
         </div>
       </div>
@@ -36,12 +38,16 @@ Element providing a the library main apps menu
       <core-menu selectedAttribute="" class="divider">
         <paper-item>
           <a href="https://app.library.uq.edu.au/v1/home">
-            <core-icon icon="dashboard"></core-icon> Dashboard
+            <core-icon icon="dashboard"></core-icon> MyLibrary
           </a></paper-item>
         <paper-item>
-          <a href="https://www.library.uq.edu.au/logout">
-          <core-icon icon="lock"></core-icon> Logout
+          <a href="https://www.library.uq.edu.au">
+            <core-icon icon="dashboard"></core-icon> UQ Library Home
           </a></paper-item>
+        <!--<paper-item>-->
+          <!--<a href="https://www.library.uq.edu.au/logout">-->
+          <!--<core-icon icon="lock"></core-icon> Logout-->
+          <!--</a></paper-item>-->
       </core-menu>
     </template>
 

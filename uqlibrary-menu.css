@@ -816,7 +816,7 @@ paper-item {
   font-size: 0.875em;
   background-color: #7b0c9d;
   border-bottom: 1px solid #cccccc; }
-  #account core-icon {
+  #account paper-icon-button {
     height: 44px;
     width: 44px;
     fill: #FAFAFA;

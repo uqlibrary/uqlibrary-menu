@@ -775,6 +775,24 @@ paper-fab {
   .hint-box.unavailable {
     background-color: #BDBDBD; }
 
+paper-input-decorator::shadow .focused-underline {
+  background-color: #8cb800; }
+
+paper-checkbox::shadow #ink[checked] {
+  color: #007e9e; }
+
+paper-checkbox::shadow #checkbox.checked {
+  border-color: #007e9e; }
+
+paper-checkbox::shadow #ink {
+  color: #cccccc; }
+
+paper-checkbox::shadow #checkbox {
+  border-color: #cccccc; }
+
+paper-button [colored] {
+  background-color: #007e9e; }
+
 :host,
 :host *,
 ::content * {
@@ -799,8 +817,10 @@ paper-item {
   background-color: #7b0c9d;
   border-bottom: 1px solid #cccccc; }
   #account core-icon {
-    height: 64px;
-    width: 64px; }
+    height: 44px;
+    width: 44px;
+    fill: #FAFAFA;
+    color: #FAFAFA; }
   #account #details {
     padding: 110px 14px 14px 14px; }
   #account #name {

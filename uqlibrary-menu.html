@@ -142,6 +142,8 @@ Element providing the library main navigation menu using a responsive drawer pan
           // TODO: use UQLAPP API to send this email
           console.log("sending feedback!");
           this.$.feedbackSentToast.show();
+          this.$.primaryToast.text = "Test text for primary toast";
+          this.$.primaryToast.show();
           console.log("user is " + account.name);
         },
 

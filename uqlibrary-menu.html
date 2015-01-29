@@ -33,6 +33,7 @@ Element providing the library main navigation menu using a responsive drawer pan
 
   <template>
     <link rel="stylesheet" href="uqlibrary-menu.css">
+    <uqlibrary-api-feedback id="feedbackApi"></uqlibrary-api-feedback>
     <uqlibrary-ga id="ga" appName="{{appName}}"></uqlibrary-ga>
     <template if="{{account.hasSession}}">
       <div id="account">
@@ -144,7 +145,8 @@ Element providing the library main navigation menu using a responsive drawer pan
             comment: compiledResponse
             }
           };
-          this.$.sendFeedback.post(newFeedback);
+          this.$.feedbackApi.post(newFeedback);
+
 
           this.$.ga.addEvent('Feedback Sent', userComment);
           console.log("sending feedback!");

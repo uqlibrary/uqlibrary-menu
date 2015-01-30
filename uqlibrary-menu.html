@@ -49,7 +49,7 @@ Element providing the library main navigation menu using a responsive drawer pan
       <core-menu selectedAttribute="" class="divider">
         <paper-item on-tap="{{go}}" link="https://app.library.uq.edu.au/v1/home" id="MyLibrary"><core-icon icon="dashboard"></core-icon> My Library</paper-item>
         <paper-item on-tap="{{go}}" link="https://www.library.uq.edu.au" id="LibraryHome"><core-icon icon="home"></core-icon> UQ Library Home</paper-item>
-        <paper-item on-tap="{{toggleFeedback}}" id="askFeedback"><core-icon icon="communication:comment"></core-icon> Feedback</paper-item>
+        <paper-item on-tap="{{go}}" link="https://www.library.uq.edu.au/v1/feedback"><core-icon icon="communication:comment"></core-icon> Feedback</paper-item>
       </core-menu>
     </template>
 
@@ -72,33 +72,6 @@ Element providing the library main navigation menu using a responsive drawer pan
       <paper-button affirmative on-tap="{{toggleLogout}}">Cancel</paper-button>
       <paper-button affirmative autofocus class="colored" on-tap="{{go}}" link="https://www.library.uq.edu.au/logout">Logout</paper-button>
     </paper-action-dialog>
-
-            <!--Feedback dialog-->
-            <!--Prompts users to provide feedback through a paper action dialog-->
-            <!--Uses UQL API to send details if user is authenticated-->
-            <!--Pops a toast to notify users about the success or failure of the feedback transmission-->
-
-    <paper-action-dialog id="feedbackDialog" heading="Tell us what you think" transition="core-transition-bottom" backdrop>
-      <p>Your feedback will help us improve MyLibrary.</p>
-      <paper-input-decorator label="Your comments (required)" error="input is required!" id="feedbackInput" autofocus>
-        <paper-autogrow-textarea>
-          <textarea></textarea>
-        </paper-autogrow-textarea>
-      </paper-input-decorator>
-
-      <core-label horizontal layout>
-        <paper-checkbox for>
-        </paper-checkbox>
-        <div id="feedbackmargin" vertical layout style="margin-left:23px;">
-          <div style="font-weight: bold;" class="body2">Include my contact information</div>
-          <p class="body1">We'll include your name, library barcode and email address so we can get back to you.</p>
-        </div>
-      </core-label>
-      <paper-button affirmative on-tap="{{toggleFeedback}}">Cancel</paper-button>
-      <paper-button affirmative style="color: #007e9e" class="colored" on-tap="{{sendFeedback}}">Send feedback</paper-button>
-    </paper-action-dialog>
-
-    <paper-toast id="feedbackSentToast" role="alert" text="Your feedback has been sent."></paper-toast>
 
   </template>
 

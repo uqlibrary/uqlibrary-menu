@@ -61,9 +61,6 @@ Element providing the library main navigation menu using a responsive drawer pan
         <paper-item on-tap="{{go}}" link="https://app.library.uq.edu.au/v1/courses" id="showCoursesPage"><core-icon icon="social:school"></core-icon> Courses</paper-item>
       </template>
       <paper-item on-tap="{{go}}" link="https://app.library.uq.edu.au/v1/hours"  id="showHoursPage"><core-icon icon="schedule"></core-icon> Hours</paper-item>
-      <template if="{{account.canMasquerade}}">
-        <paper-item on-tap="{{go}}" link="#" id="showMasqueradePage"><core-icon icon="perm-identity"></core-icon> Masquerade</paper-item>
-      </template>
       <!--<paper-item><a href="#"><core-icon icon="communication:live-help"></core-icon> Help chat</a></paper-item>-->
     </core-menu>
 
@@ -73,7 +70,7 @@ Element providing the library main navigation menu using a responsive drawer pan
     <paper-action-dialog id="logoutDialog" heading="Are you sure you wish to logout?" transition="core-transition-bottom" backdrop>
       <p>This will log you out of all your UQ website sessions.</p>
       <paper-button affirmative on-tap="{{toggleLogout}}">Cancel</paper-button>
-      <paper-button affirmative autofocus style="color: #007e9e" class="colored" on-tap="{{go}}" link="https://www.library.uq.edu.au/logout">Logout</paper-button>
+      <paper-button affirmative autofocus class="colored" on-tap="{{go}}" link="https://www.library.uq.edu.au/logout">Logout</paper-button>
     </paper-action-dialog>
 
             <!--Feedback dialog-->
@@ -84,35 +81,6 @@ Element providing the library main navigation menu using a responsive drawer pan
     <paper-action-dialog id="feedbackDialog" heading="Tell us what you think" transition="core-transition-bottom" backdrop>
       <p>Your feedback will help us improve MyLibrary.</p>
       <paper-input-decorator label="Your comments (required)" error="input is required!" id="feedbackInput" autofocus>
-        <style>
-          paper-input-decorator::shadow .focused-underline {
-            background-color: #007e9e;
-          }
-          paper-checkbox::shadow #ink[checked] {
-            color: #007e9e;
-          }
-          paper-checkbox::shadow #checkbox.checked {
-            border-color: #007e9e;
-            background-color: #007e9e;
-          }
-          paper-checkbox::shadow #ink {
-            color: #007e9e;
-          }
-          paper-checkbox::shadow #checkbox {
-            border-color: #b5b5b5;
-          }
-
-          :host(.invalid) .floated-label .label-text,
-          .error {
-            color: #aa0041; /*$uq-red */
-          }
-
-          :host(.invalid) .unfocused-underline,
-          :host(.invalid) .focused-underline {
-            background-color: #aa0041; /*$uq-red */
-          }
-
-        </style>
         <paper-autogrow-textarea>
           <textarea></textarea>
         </paper-autogrow-textarea>
@@ -149,10 +117,6 @@ Element providing the library main navigation menu using a responsive drawer pan
 
         },
 
-        toggleFeedback: function () {
-          this.$.feedbackDialog.toggle();
-        },
-
         toggleLogout: function () {
           this.$.logoutDialog.toggle();
         },
@@ -163,24 +127,6 @@ Element providing the library main navigation menu using a responsive drawer pan
             this.$.ga.addEvent('Menu Item Clicked', _id);
           }
           document.location.href = el.attributes.link.value;
-        },
-
-        sendFeedback: function () {
-          var userAccount = this.account.name;
-          var userAgent = navigator.userAgent;
-          var userComment = this.$.feedbackInput;
-          var compiledResponse = "From: " + userAccount + "<br>Comment: " + userComment + "<br>User Agent: " + userAgent;
-          var newFeedback = { feedback : {
-            subject: "UQ My Library Feedback",
-            comment: compiledResponse
-            }
-          };
-          this.$.feedbackApi.post(newFeedback);
-
-
-          this.$.ga.addEvent('Feedback Sent', userComment);
-          console.log("sending feedback!");
-          this.$.feedbackSentToast.show();
         },
 
         linkClicked: function(e, detail, sender) {

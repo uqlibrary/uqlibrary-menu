@@ -103,8 +103,8 @@ Element providing the library main navigation menu using a responsive drawer pan
           var currentURL = document.URL;
           var nextLocation = el.attributes.link.value;
           var nextURL = currentURL.match("^(.*[\\\/]){3}");
-          currentURL.replace(nextURL[1],nextLocation)
-          document.location.href = currentURL;
+
+          document.location.href = currentURL.replace(nextURL[1],nextLocation);
         },
 
         linkClicked: function(e, detail, sender) {

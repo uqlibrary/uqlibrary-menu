@@ -17,7 +17,7 @@
               && 'content' in document.createElement('template'))) {
           // IE 8 and 9 throw errors if you try to include webcomponents.js, which prevents other user messages working
           if (!isIE() || isIE () > 9) {
-              document.write('<script src="../webcomponentsjs/webcomponents.min.js"><\/script>');
+              document.write('<script src="../webcomponentsjs/webcomponents-lite.min.js"><\/script>');
           }
       }
 
@@ -26,26 +26,35 @@
 
   <!-- Uncomment below and disable chrome security (with Allow-Control-Allow-Origin: * extension) to test the demo locally instead of via the github pages pathing -->
   <link rel="import" href="uqlibrary-menu.html">
-  <link rel="import" href="../uqlibrary-api/uqlibrary-api-account.html">
-  <link rel="stylesheet" href="../uqlibrary-elements/resources/theme/app.css">
+  <!--<link rel="import" href="../uqlibrary-api/uqlibrary-api-account.html">-->
+  <!--<link rel="stylesheet" href="../uqlibrary-elements/resources/theme/app.css">-->
 </head>
-<body unresolved>
+<body style="margin:0" unresolved>
 
   <uqlibrary-api-account id="account"></uqlibrary-api-account>
-
-  <uqlibrary-menu menuFile="flint.json"></uqlibrary-menu>
+  <uqlibrary-menu menu-file="../uqlibrary-elements/resources/menu/applications.json"></uqlibrary-menu>
   <!--<uqlibrary-menu></uqlibrary-menu>-->
 
   <script>
     (function () {
-      document.cookie="UQLMockData=enabled";
-      document.cookie="UQLMockData-PType=";
+      //document.cookie="UQLMockData=enabled";
+      document.cookie="UQLMockData-PType=1";
 
-      window.addEventListener('polymer-ready', function() {
-        var menu = document.querySelector('uqlibrary-menu');
-        var api = document.querySelector('uqlibrary-api-account');
 
-        api.addEventListener('uqlibrary-api-account-loaded', function(e) {
+      document.addEventListener('uqlibrary-menu-link-clicked', function (e) {
+
+        console.log(e.detail);
+
+      });
+
+
+      var menu = document.querySelector('uqlibrary-menu');
+      var api = document.querySelector('uqlibrary-api-account');
+
+
+
+
+      document.addEventListener('uqlibrary-api-account-loaded', function(e) {
           if (e.detail.hasSession) {
             menu.account = e.detail;
           } else {
@@ -53,14 +62,19 @@
           }
         });
 
-        menu.addEventListener('uqlibrary-menu-link-clicked', function(e) {
-          console.log(e.detail);
+      document.addEventListener('uqlibrary-menu-link-clicked', function(e) {
+        console.log('menu link clicked');
         });
 
+      document.addEventListener('uqlibrary-menu-loaded', function(e) {
+        console.log('menu loaded');
+      });
 
-//        api.get();
 
-      })
+
+        api.get();
+
+
     }());
    </script>
 </body>

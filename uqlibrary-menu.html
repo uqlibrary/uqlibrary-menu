@@ -30,7 +30,6 @@ Element providing the library main navigation menu using a responsive drawer pan
 @homepage https://github.com/uqlibrary/uqlibrary-menu
 -->
 <dom-module id="uqlibrary-menu">
-  <link rel="import" type="css" href="../uqlibrary-elements/resources/theme/element.css">
   <style>
     #skipNavigation {
       position: fixed;
@@ -51,7 +50,7 @@ Element providing the library main navigation menu using a responsive drawer pan
     }
 
   </style>
-    <template>
+  <template>
         <!--<uqlibrary-ga id="ga" appName="{{appName}}"></uqlibrary-ga>-->
         <uqlibrary-api-applications id="apiApplications" user="{{account}}"></uqlibrary-api-applications>
 
@@ -61,8 +60,7 @@ Element providing the library main navigation menu using a responsive drawer pan
                       on-tap="handleSkipNavigation">Skip navigation</paper-button>
 
         <paper-toolbar>
-              <paper-icon-button icon="menu" on-click="onCloseMenu"></paper-icon-button>
-              <span>UQ | Library</span>
+          <div class="paper-font-headline">{{appTitle}}</div>
         </paper-toolbar>
 
         <div id="account" hidden$="{{!account.hasSession}}">
@@ -73,7 +71,7 @@ Element providing the library main navigation menu using a responsive drawer pan
                 </div>
                 <paper-icon-button icon="lock" aria-label="Logout" title="Logout" on-tap="toggleLogout" id="askLogout"></paper-icon-button>
             </div>
-            <paper-dialog id="logoutDialog" modal >
+            <paper-dialog id="logoutDialog" modal>
               <h2>Logout</h2>
               <div>
                 <p>Are you sure you want to log out?</p>
@@ -84,7 +82,6 @@ Element providing the library main navigation menu using a responsive drawer pan
                 <paper-button affirmative autofocus on-tap="go" link="https://www.library.uq.edu.au/logout"><a class="colored" href="https://www.library.uq.edu.au/logout">Logout</a></paper-button>
               </div>
             </paper-dialog>
-
         </div>
 
 
@@ -112,13 +109,15 @@ Element providing the library main navigation menu using a responsive drawer pan
 
 <script>
   Polymer({
-
     is: 'uqlibrary-menu',
     hostAttributes: {
       role: 'navigation'
     },
-
     properties: {
+      appTitle: {
+        type: String,
+        value: "UQ | Library"
+      },
       account: {
         type: Object,
         value: {},
@@ -132,26 +131,18 @@ Element providing the library main navigation menu using a responsive drawer pan
         notify: true,
         observer: '_menuFileChanged'
       },
-
-
       applications: {
         type: Array,
         value: []
       }
-
-
-
     },
+
     attached: function () {
       this.askLogout = this.$.askLogout;
       this.menuItems = this.$.menuItems;
       this.account = {
         hasSession: false
       };
-    },
-
-    onCloseMenu: function () {
-      this.fire('uqlibrary-menu-close');
     },
 
     menuItemClicked: function(e) {
@@ -188,7 +179,6 @@ Element providing the library main navigation menu using a responsive drawer pan
     },
 
     linkClicked: function(e) {
-
       var ev = Polymer.dom(e);
       console.log(ev.rootTarget);
 
@@ -205,7 +195,6 @@ Element providing the library main navigation menu using a responsive drawer pan
       e.preventDefault();
       this.fire('uqlibrary-menu-link-clicked', sender.getAttribute('href'));
     }
-
   });
 </script>
 

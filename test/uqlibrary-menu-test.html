@@ -75,7 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       setTimeout(function () {
         var menuItems = app.querySelectorAll('paper-item');
         menuItems[0].fire('click');
-      }, 100);
+      }, 1000);
     });
   });
 
@@ -98,7 +98,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var menuItems = app.querySelectorAll('paper-item');
         assert.isAbove(menuItems.length, 0);
         done();
-      }, 100);
+      }, 1000);
     });
 
     test('user details are not displayed', function (done) {
@@ -107,7 +107,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var userDetails = app.querySelector('#user');
         assert.property(userDetails.attributes, 'hidden');
         done();
-      }, 100);
+      }, 1000);
     });
   });
 
@@ -137,7 +137,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var menuItems = app.querySelectorAll('paper-item');
         assert.isAbove(menuItems.length, 0);
         done();
-      }, 100);
+      }, 1000);
 
     });
 
@@ -148,7 +148,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var userDetails = app.querySelector('#user');
         assert.notProperty(userDetails.attributes, 'hidden');
         done();
-      }, 100);
+      }, 1000);
 
     });
 

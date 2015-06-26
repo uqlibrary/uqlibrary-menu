@@ -1,0 +1,160 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>api applications testing</title>
+
+  <script src="../../webcomponentsjs/webcomponents.min.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+
+  <link rel="import" href="../../test-fixture/test-fixture.html">
+  <link rel="import" href="../uqlibrary-menu.html">
+
+</head>
+<body>
+
+<test-fixture id="basic">
+  <template>
+    <uqlibrary-menu id="app"></uqlibrary-menu>
+  </template>
+</test-fixture>
+
+<script>
+  var app;
+  var url = 'menu.json';
+
+  suite('uqlibrary-menu events tests', function () {
+
+    var app;
+
+    setup(function () {
+      app = fixture('basic');
+    });
+
+    test('test menu items changed observer', function (done) {
+
+      var menuLoaded = function (e) {
+        //data has been loaded
+        assert.isAbove(e.detail.value.length, 0);
+        done();
+      };
+
+      app.addEventListener('menu-items-changed', menuLoaded);
+
+      app.menuFile = url;
+      app.user = {
+        "hasSession": false
+      };
+    });
+
+    test('test selected menu item changed observer', function (done) {
+
+      var handler = function (e) {
+        assert.equal(e.detail.value.link, '#home');
+        done();
+      };
+
+      app.addEventListener('selected-menu-item-changed', handler);
+
+      app.menuFile = url;
+      app.user = {
+        "hasSession": false
+      };
+
+      setTimeout(function () {
+        var menuItems = app.querySelectorAll('paper-item');
+        menuItems[0].fire('click');
+      }, 100);
+    });
+  });
+
+  suite('uqlibrary-menu tests for anon user', function () {
+
+    var app;
+
+    setup(function () {
+      app = fixture('basic');
+      app.menuFile = url;
+      app.user = {
+        "hasSession": false
+      };
+    });
+
+    test('menu items are displayed', function (done) {
+      //wait for data to load
+      setTimeout(function () {
+        //menu items have been displayed
+        var menuItems = app.querySelectorAll('paper-item');
+        assert.isAbove(menuItems.length, 0);
+        done();
+      }, 100);
+    });
+
+    test('user details are not displayed', function (done) {
+      //wait for data to load
+      setTimeout(function () {
+        var userDetails = app.querySelector('#user');
+        assert.property(userDetails.attributes, 'hidden');
+        done();
+      }, 100);
+    });
+  });
+
+  suite('uqlibrary-menu tests for auth user', function () {
+
+    var app;
+
+    setup(function () {
+      app = fixture('basic');
+      app.menuFile = url;
+      app.user = {
+        "id": "s1234567",
+        "class": "0",
+        "type": 18,
+        "homeLib": "sshia",
+        "name": "Mr. John Doe",
+        "mail": "s1234567@student.uq.edu.au",
+        "hasSession": true,
+        "canMasquerade": true
+      };
+    });
+
+    test('menu items are displayed', function (done) {
+      //wait for data to load
+      setTimeout(function () {
+        //menu items have been displayed
+        var menuItems = app.querySelectorAll('paper-item');
+        assert.isAbove(menuItems.length, 0);
+        done();
+      }, 100);
+
+    });
+
+    test('user details are displayed', function (done) {
+      //wait for data to load
+      setTimeout(function () {
+        //user details have been displayed
+        var userDetails = app.querySelector('#user');
+        assert.notProperty(userDetails.attributes, 'hidden');
+        done();
+      }, 100);
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>

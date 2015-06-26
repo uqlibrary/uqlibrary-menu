@@ -1,15 +1,17 @@
 uqlibrary-menu
 ================
 
-See the [component page](https://uqlibrary.github.io/uqlibrary-menu) for more information.
+Element providing main navigation menu in Polymer v1
+Element features:
+  - skip navigation for accessibility
+  - loads menu items from json file
+  - notifies client for menu items loaded and menu item selected
 
-## Testing Your Element
+##### Example
 
-### web-component-tester
-
-The tests are compatible with [web-component-tester](https://github.com/Polymer/web-component-tester). You can run them on multiple local browsers via:
-
-```sh
-npm install -g web-component-tester
-wct
-```
+  <uqlibrary-menu
+      user="{{user}}"
+      menu-file="{{appMenuFile}}"
+      on-selected-menu-item-changed="closeMenu"
+      on-menu-items-changed="menuReloaded"
+      on-logout-clicked="logout">

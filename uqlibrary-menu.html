@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../iron-a11y-keys/iron-a11y-keys.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../iron-icons/maps-icons.html">
@@ -11,21 +10,28 @@
 <link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-toolbar/paper-toolbar.html">
-<link rel="import" href="../paper-dialog/paper-dialog.html">
-<link rel="import" href="../neon-animation/animations/slide-up-animation.html">
 
 <link rel="import" href="../uqlibrary-api/uqlibrary-api-account.html">
 <link rel="import" href="../uqlibrary-api/uqlibrary-api-applications.html">
 
 <!--
-Element providing the library main navigation menu using a responsive drawer panel
+Element providing main navigation menu in Polymer v1
+Element features:
+  - skip navigation for accessibility
+  - loads menu items from json file
+  - notifies client for menu items loaded and menu item selected
 
 ##### Example
 
-    <uqlibrary-menu></uqlibrary-menu>
+  <uqlibrary-menu
+      user="{{user}}"
+      menu-file="{{appMenuFile}}"
+      on-selected-menu-item-changed="closeMenu"
+      on-menu-items-changed="menuReloaded"
+      on-logout-clicked="logout">
 
 @element uqlibrary-menu
-@blurb Element providing the library main navigation menu using a responsive drawer panel. Width of drawer should be screen width - app bar height (max-width = 400dp) (source: http://www.google.com/design/spec/layout/structure.html#structure-side-nav)
+@blurb Element providing main navigation menu
 @status alpha
 @homepage https://github.com/uqlibrary/uqlibrary-menu
 -->
@@ -51,149 +57,103 @@ Element providing the library main navigation menu using a responsive drawer pan
 
   </style>
   <template>
-        <!--<uqlibrary-ga id="ga" appName="{{appName}}"></uqlibrary-ga>-->
-        <uqlibrary-api-applications id="apiApplications" user="{{account}}"></uqlibrary-api-applications>
 
-        <!-- accessibility "Skip navigation" anchor -->
-        <paper-button id="skipNavigation" aria-label="skip navigation"
-                      title="Skip navigation"
-                      on-tap="handleSkipNavigation">Skip navigation</paper-button>
 
-        <paper-toolbar>
-          <div class="paper-font-headline">{{appTitle}}</div>
-        </paper-toolbar>
+    <uqlibrary-api-applications id="apiApplications"
+                                url="{{menuFile}}"
+                                user="{{user}}"
+                                on-uqlibrary-api-applications-loaded="menuDataLoaded"></uqlibrary-api-applications>
 
-        <div id="account" hidden$="{{!account.hasSession}}">
-            <div id="gradient" class="reverse horizontal layout end flex">
-                <div id="details" class="flex">
-                    <div id="name" class="body2 inverse">{{account.name}}</div>
-                    <div id="mail" class="body1 inverse">{{account.mail}}</div>
-                </div>
-                <paper-icon-button icon="lock" aria-label="Logout" title="Logout" on-tap="toggleLogout" id="askLogout"></paper-icon-button>
-            </div>
-            <paper-dialog id="logoutDialog" modal>
-              <h2>Logout</h2>
-              <div>
-                <p>Are you sure you want to log out?</p>
-                <p>This will log you out of all your UQ website sessions.</p>
-              </div>
-              <div class="buttons">
-                <paper-button affirmative on-tap="toggleLogout">Cancel</paper-button>
-                <paper-button affirmative autofocus on-tap="go" link="https://www.library.uq.edu.au/logout"><a class="colored" href="https://www.library.uq.edu.au/logout">Logout</a></paper-button>
-              </div>
-            </paper-dialog>
+    <!-- accessibility "Skip navigation" anchor -->
+    <paper-button id="skipNavigation" aria-label="skip navigation"
+                  title="Skip navigation"
+                  on-tap="handleSkipNavigation">Skip navigation
+    </paper-button>
+    <paper-toolbar>
+      <div class="paper-font-headline">{{appTitle}}</div>
+    </paper-toolbar>
+    <div id="user" hidden$="{{!user.hasSession}}">
+      <div id="gradient" class="reverse horizontal layout end flex">
+        <div id="details" class="flex">
+          <div id="name" class="body2 inverse">{{user.name}}</div>
+          <div id="mail" class="body1 inverse">{{user.mail}}</div>
         </div>
-
-
-        <iron-menu-behavior id="menuItems">
-            <template is="dom-repeat" items="{{applications}}">
-                <template is="dom-if" if="{{item.isDivider}}">
-                    <div class="divider"></div>
-                </template>
-                <template is="dom-if" if="{{!item.isDivider}}">
-                  <a href="{{ item.link }}" id="{{ item.app }}" on-click="linkClicked" title="{{item.title}}" >
-                    <paper-item>
-                        <iron-icon alt="{{ item.description }}" icon="{{ item.icon }}"></iron-icon>
-                        <span>{{item.title}}</span>
-                    </paper-item>
-                    </a>
-                </template>
-            </template>
-        </iron-menu-behavior>
-        <iron-a11y-keys target="{{menuItems}}" keys="space" on-keys-pressed="menuItemClicked"></iron-a11y-keys>
-
-        <!-- accessibility "Skip navigation" anchor -->
-        <div tabindex="0" style="opacity: 0;" id="content" aria-label="Start of content">Start of content</div>
-    </template>
+        <paper-icon-button icon="lock"
+                           aria-label="Logout"
+                           title="Logout"
+                           on-tap="logoutClicked"
+                           id="askLogout"></paper-icon-button>
+      </div>
+    </div>
+    <iron-menu-behavior id="menuItems">
+      <template is="dom-repeat" items="{{menuItems}}">
+        <template is="dom-if" if="{{item.isDivider}}">
+          <div class="divider"></div>
+        </template>
+        <template is="dom-if" if="{{!item.isDivider}}">
+          <a href="{{ item.link }}" id="{{ item.app }}" on-click="linkClicked" title="{{item.title}}">
+            <paper-item>
+              <iron-icon alt="{{ item.description }}" icon="{{ item.icon }}"></iron-icon>
+              <span>{{item.title}}</span>
+            </paper-item>
+          </a>
+        </template>
+      </template>
+    </iron-menu-behavior>
+    <!-- accessibility "Skip navigation" anchor -->
+    <div tabindex="0" style="opacity: 0;" id="content" aria-label="Start of content">Start of content</div>
+  </template>
 </dom-module>
 
 <script>
   Polymer({
     is: 'uqlibrary-menu',
+
     hostAttributes: {
       role: 'navigation'
     },
+
     properties: {
       appTitle: {
         type: String,
         value: "UQ | Library"
       },
-      account: {
-        type: Object,
-        value: {},
-        notify: true,
-        observer: '_accountChanged'
-
-      },
-      menuFile: {
-        type: String,
-        value: '',
-        notify: true,
-        observer: '_menuFileChanged'
-      },
-      applications: {
+      user: Object,
+      menuFile: String,
+      menuItems: {
         type: Array,
-        value: []
+        notify: true
+      },
+      selectedMenuItem: {
+        type: Object,
+        notify: true
       }
     },
 
-    attached: function () {
-      this.askLogout = this.$.askLogout;
-      this.menuItems = this.$.menuItems;
-      this.account = {
-        hasSession: false
-      };
+    observers: [
+      'getMenuData(user, menuFile)'
+    ],
+
+    getMenuData: function (user, menuFile) {
+      this.$.apiApplications.get();
     },
 
-    menuItemClicked: function(e) {
-      var link = e.detail.keyboardEvent.srcElement;
-      link.click();
+    menuDataLoaded: function (e) {
+      this.menuItems = e.detail;
     },
 
-    _menuFileChanged: function(newValue) {
-      if(newValue && newValue != '') {
-        this.$.apiApplications.url = newValue;
-        this.$.apiApplications.get();
-      }
-    },
-
-    _accountChanged: function(newValue) {
-      if(newValue && Object.keys(newValue).length !== 0)
-        this.$.apiApplications.get();
-    },
-
-    ready: function () {
-      var that = this;
-      this.$.apiApplications.addEventListener('uqlibrary-api-applications-loaded', function(e) {
-        that.applications = e.detail;
-        that.fire('uqlibrary-menu-loaded');
-      });
-    },
-
-    handleSkipNavigation: function(e) {
+    handleSkipNavigation: function (e) {
       this.$.content.focus();
     },
 
-    toggleLogout: function (e) {
+    logoutClicked: function (e) {
+      this.fire('logout-clicked');
       this.$.logoutDialog.toggle();
     },
 
-    linkClicked: function(e) {
-      var ev = Polymer.dom(e);
-      console.log(ev.rootTarget);
-
-      var sender = e.srcElement;
-      var _id = sender.getAttribute('id');
-      var _title = sender.getAttribute('title');
-
-      console.log(_id);
-      console.log(_title);
-
-      if(_id || _title) {
-        //this.$.ga.addEvent('Link Clicked', _id ? _id : _title);
-      }
-      e.preventDefault();
-      this.fire('uqlibrary-menu-link-clicked', sender.getAttribute('href'));
+    linkClicked: function (e) {
+      var item = (e && e.model && e.model.item) ? e.model.item : null;
+      this.selectedMenuItem = item;
     }
   });
 </script>

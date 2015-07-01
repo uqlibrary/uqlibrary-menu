@@ -44,7 +44,8 @@ Element features:
       top: -200px;
 
       margin: 5px;
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: var(--skip-navigation-hidden-color);
+      color: var(--primary-text-color);
     }
 
     #skipNavigation:focus {
@@ -52,7 +53,30 @@ Element features:
       z-index: 99999999999;
       left: 0px;
       top: 0px;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: var(--skip-navigation-visible-color);
+      color: var(--primary-text-color);
+    }
+
+    #menuItems a {
+      color:  var(--menu-item-color);
+      text-decoration: none;
+    }
+
+    #menuItems iron-icon {
+      color: var(--menu-icon-color);
+      margin-right: 16px;
+    }
+
+    #menuItems .divider {
+      border-bottom: 1px solid --var(--divider-color);
+    }
+
+    #user#header {
+      padding: 110px 14px 14px 16px;
+      border-bottom: 1px solid --var(--divider-color);
+      background: linear-gradient(to bottom, transparent 30%, black 100%);
+      background: -webkit-gradient(linear, left top, left bottom, color-stop(30%, transparent), color-stop(100%, var(--menu-header-bg-color)));
+      color: var(--menu-header-color);
     }
 
   </style>
@@ -73,7 +97,7 @@ Element features:
       <div class="paper-font-headline">{{appTitle}}</div>
     </paper-toolbar>
     <div id="user" hidden$="{{!user.hasSession}}">
-      <div id="gradient" class="reverse horizontal layout end flex">
+      <div id="header" class="reverse horizontal layout end flex">
         <div id="details" class="flex">
           <div id="name" class="body2 inverse">{{user.name}}</div>
           <div id="mail" class="body1 inverse">{{user.mail}}</div>

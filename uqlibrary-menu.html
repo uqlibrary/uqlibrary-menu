@@ -57,9 +57,21 @@ Element features:
       color: var(--primary-text-color);
     }
 
+    #menuItems paper-item {
+      position: relative;
+    }
+
     #menuItems a {
       color:  var(--menu-item-color);
       text-decoration: none;
+    }
+
+    #menuItems a:hover {
+      color: var(--menu-item-hover-color);
+    }
+
+    #menuItems paper-item:hover {
+      background-color: var(--menu-item-hover-bg-color);
     }
 
     #menuItems iron-icon {
@@ -71,10 +83,14 @@ Element features:
       border-bottom: 1px solid var(--divider-color);
     }
 
+    #menuItems paper-ripple {
+      color: var(--menu-item-ripple-bg-color);
+    }
+
     #user #header {
       padding: 110px 14px 14px 16px;
-      border-bottom: 1px solid --var(--divider-color);
-      background: linear-gradient(to bottom, transparent 30%, black 100%);
+      border-bottom: 1px solid var(--divider-color);
+      background: linear-gradient(to bottom, transparent 30%, var(--menu-header-bg-color) 100%);
       background: -webkit-gradient(linear, left top, left bottom, color-stop(30%, transparent), color-stop(100%, var(--menu-header-bg-color)));
       color: var(--menu-header-color);
     }
@@ -117,6 +133,8 @@ Element features:
         <template is="dom-if" if="{{!item.isDivider}}">
           <a href="{{ item.link }}" id="{{ item.app }}" on-click="linkClicked" title="{{item.title}}">
             <paper-item>
+              <paper-ripple>              </paper-ripple>
+
               <iron-icon alt="{{ item.description }}" icon="{{ item.icon }}"></iron-icon>
               <span>{{item.title}}</span>
             </paper-item>

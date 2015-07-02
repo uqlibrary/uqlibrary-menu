@@ -60,21 +60,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     test('test selected menu item changed observer', function (done) {
 
-      var handler = function (e) {
-        assert.equal(e.detail.value.link, '#home');
+      app.onMenuSelect = function (e) {
+        assert.equal(e.detail.item.getAttribute('data-route'), 'home');
         done();
       };
-
-      app.addEventListener('selected-menu-item-changed', handler);
-
       app.menuFile = url;
       app.user = {
         "hasSession": false
       };
 
       setTimeout(function () {
-        var menuItems = app.querySelectorAll('paper-item');
-        menuItems[0].fire('click');
+        var menuItems = app.querySelectorAll('paper-menu a');
+        menuItems[0].click();
       }, 1000);
     });
   });
@@ -95,7 +92,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       //wait for data to load
       setTimeout(function () {
         //menu items have been displayed
-        var menuItems = app.querySelectorAll('paper-item');
+        var menuItems = app.querySelectorAll('paper-menu a');
         assert.isAbove(menuItems.length, 0);
         done();
       }, 1000);
@@ -134,7 +131,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       //wait for data to load
       setTimeout(function () {
         //menu items have been displayed
-        var menuItems = app.querySelectorAll('paper-item');
+        var menuItems = app.querySelectorAll('paper-menu a');
         assert.isAbove(menuItems.length, 0);
         done();
       }, 1000);

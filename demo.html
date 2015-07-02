@@ -15,6 +15,7 @@
 
   <script>
     (function () {
+
       var element = document.querySelector('uqlibrary-menu');
 
       element.user = {
@@ -27,6 +28,17 @@
         "hasSession": true,
         "canMasquerade": true
       };
+
+      element.onMenuSelect = function(e) {
+        console.log(e.detail.item);
+      };
+
+      // See https://github.com/Polymer/polymer/issues/1381
+      window.addEventListener('WebComponentsReady', function() {
+        // imports are loaded and elements have been registered
+      });
+
+
     }());
    </script>
 </body>

@@ -36,6 +36,31 @@
 <uqlibrary-menu autoload="false"></uqlibrary-menu>
 <script>
   (function () {
+    /**
+     * Wrapper-Class for done-function to avoid multiple calls on Firefox +35
+     * Solution based on: https://github.com/mochajs/mocha/issues/1066#issuecomment-164714206
+     * @param {Function} fn
+     * @class {Done}
+     */
+    function Done(fn) {
+      var self   = this;
+      var called = false;
+
+      /**
+       *
+       * @param {*} params...
+       */
+      this.trigger = function (params) {
+        if(called) {
+          // do nothing and return
+          return;
+        }
+
+        fn.apply(self, arguments);
+        called = true;
+      };
+    }
+
     window.addEventListener('polymer-ready', function() {
       var menuLoadedEventListeners = [];
       var menu = document.querySelector('uqlibrary-menu');
@@ -61,12 +86,13 @@
 
         describe('menu-items-api', function () {
 
-          it('should have a menu user with a details set from the uqlibrary-api', function (done) {
+          it('should have a menu user with a details set from the uqlibrary-api', function (fn) {
+            var doneWrap = new Done(fn);
             var menuLoadListener = function() {
               // Wait 2 second for mock data to be loaded
               setTimeout(function () {
                 checkMenu(menu);
-                done();
+                doneWrap.trigger();
               }, 2000);
             }
             api.addEventListener('uqlibrary-api-account-loaded', menuLoadListener);
@@ -89,8 +115,7 @@
               setTimeout(function () {
                 var masqueradeId = menu.shadowRoot.querySelector('paper-item#uqlibrary-masquerade');
                 assert.isNotNull(masqueradeId);
-
-                done();
+                doneWrap.trigger();
               }, 2000);
           });
         });

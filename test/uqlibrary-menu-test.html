@@ -14,27 +14,161 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
   <title>api applications testing</title>
 
-  <script src="../../webcomponentsjs/webcomponents.min.js"></script>
-  <script src="../../web-component-tester/browser.js"></script>
-  <script src="../../test-fixture/test-fixture-mocha.js"></script>
+  <script src="../bower_components/webcomponentsjs/webcomponents.min.js"></script>
+  <script src="../bower_components/web-component-tester/browser.js"></script>
+  <script src="../bower_components/test-fixture/test-fixture-mocha.js"></script>
 
-  <link rel="import" href="../../test-fixture/test-fixture.html">
-  <link rel="import" href="../uqlibrary-menu.html">
+  <link rel="import" href="../bower_components/test-fixture/test-fixture.html">
+  <link rel="import" href="../elements/uqlibrary-menu.html">
 
 </head>
 <body>
 
 <test-fixture id="basic">
   <template>
-    <uqlibrary-menu id="app"></uqlibrary-menu>
+    <uqlibrary-menu id="app" auto-load="false" test-mode="true"></uqlibrary-menu>
   </template>
 </test-fixture>
 
 <script>
   var app;
-  var url = 'menu.json';
 
-  suite('uqlibrary-menu events tests', function () {
+  var menu = [
+    {
+      "title": "My Library",
+      "description": "Return to My Library",
+      "icon": "dashboard",
+      "link": "#home",
+      "route": "home"
+    },
+    {
+      "title": "UQ Library Home",
+      "description": "Return to UQ Library Home",
+      "icon": "home",
+      "link": "https://www.library.uq.edu.au/"
+    },
+    {
+      "isDivider": true
+    },
+    {
+      "app": "uqlibrary-chat",
+      "title": "Ask Us",
+      "description": "Ask the library for help",
+      "icon": "question-answer",
+      "link": "#chat",
+      "ga": "chat",
+      "route": "chat"
+    },
+    {
+      "app": "uqlibrary-booking",
+      "title": "Booking",
+      "description": "View or manage my library bookings",
+      "icon": "event",
+      "link": "#booking",
+      "ptypes": [1, 31, 11, 21, 2, 22, 17, 18],
+      "ga": "FBS",
+      "route": "booking"
+    },
+    {
+      "app": "uqlibrary-borrowing",
+      "title": "Borrowing",
+      "description": "View or manage my library loans, holds, and fines",
+      "icon": "maps:local-library",
+      "link": "#borrowing",
+      "ptypes": [1, 31, 11, 21, 2, 22, 3, 32, 17, 18, 25, 14, 4, 9, 13, 10, 12, 27, 7, 15, 5, 8],
+      "ga": "Borrowing",
+      "route": "borrowing",
+      "subApplications": [
+        {
+          "app": "Loans",
+          "title": "Loans",
+          "ptypes": [1, 31, 11, 21, 2, 22, 3, 32, 17, 18, 25, 14, 4, 9, 13, 10, 12, 27, 7, 15, 5, 8]
+        },
+        {
+          "app": "Holds",
+          "title": "Holds",
+          "ptypes": [1, 31, 11, 21, 2, 22, 3, 32, 17, 18, 25, 14, 4, 9, 7, 15, 8]
+        },
+        {
+          "app": "Fines",
+          "title": "Fines",
+          "ptypes": [1, 31, 11, 21, 2, 22, 14, 4, 13, 5, 8, 17, 18]
+        }
+      ]
+    },
+    {
+      "app": "uqlibrary-computers",
+      "title": "Computers",
+      "description": "View library computers availability",
+      "icon": "hardware:desktop-mac",
+      "link": "#computers",
+      "ga": "Computers",
+      "route": "computers"
+    },
+    {
+      "app": "uqlibrary-hours",
+      "title": "Hours",
+      "description": "View library opening hours",
+      "icon": "schedule",
+      "link": "#hours",
+      "ga": "Hours",
+      "route": "hours"
+    },
+    {
+      "app": "uqlibrary-courses",
+      "title": "Courses",
+      "description": "View course learning resources",
+      "icon": "social:school",
+      "link": "#courses",
+      "ga": "Courses",
+      "ptypes": [1, 3, 31, 11, 21, 17, 18, 2, 22],
+      "route": "courses"
+    },
+    {
+      "app": "uqlibrary-research",
+      "title": "Research",
+      "description": "View my research progress",
+      "icon": "assessment",
+      "link": "#research",
+      "ga": "Research",
+      "ptypes": [2, 22, 3, 17, 18],
+      "route": "research"
+    },
+    {
+      "app": "uqlibrary-papercut",
+      "title": "Printing",
+      "description": "Manage my printing balance",
+      "icon": "print",
+      "link": "#papercut",
+      "ga": "papercut",
+      "ptypes": [1, 31, 11, 21, 2, 22, 14, 4, 13, 5, 8, 17, 18],
+      "route": "papercut"
+    },
+    {
+      "app": "uqlibrary-masquerade",
+      "title": "Masquerade",
+      "description": "Masquerade as another library user",
+      "icon": "perm-identity",
+      "link": "#masquerade2",
+      "ga": "masquerade",
+      "ptypes": [17, 18],
+      "route": "masquerade"
+    },
+    {
+      "isDivider": true
+    },
+    {
+      "app": "uqlibrary-feedback",
+      "title": "Feedback",
+      "description": "Leave feedback for my library",
+      "icon": "communication:comment",
+      "link": "#feedback2",
+      "ga": "Feedback",
+      "route": "feedback"
+    }
+  ];
+
+  suite('uqlibrary-menu', function () {
 
     var app;
 
@@ -42,114 +176,107 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       app = fixture('basic');
     });
 
-    test('test menu items changed observer', function (done) {
-
-      var menuLoaded = function (e) {
-        //data has been loaded
-        assert.isAbove(e.detail.value.length, 0);
+    test('it should load menu items', function (done) {
+      app.addEventListener('uqlibrary-menu-loaded', function (e) {
+        assert.isAbove(e.detail.length, 0);
         done();
-      };
+      });
 
-      app.addEventListener('menu-items-changed', menuLoaded);
-
-      app.menuFile = url;
-      app.user = {
+      app._account = {
         "hasSession": false
       };
+      app.applications = menu;
     });
 
-    test('test selected menu item changed observer', function (done) {
+    test('it should not not show all menu items for anon users', function (done) {
 
-      app.onMenuSelect = function (e) {
-        assert.equal(e.detail.item.getAttribute('data-route'), 'home');
-        done();
-      };
-      app.menuFile = url;
-      app.user = {
-        "hasSession": false
-      };
-
-      setTimeout(function () {
-        var menuItems = app.querySelectorAll('paper-menu a');
-        menuItems[0].click();
-      }, 1000);
-    });
-  });
-
-  suite('uqlibrary-menu tests for anon user', function () {
-
-    var app;
-
-    setup(function () {
-      app = fixture('basic');
-      app.menuFile = url;
-      app.user = {
-        "hasSession": false
-      };
-    });
-
-    test('menu items are displayed', function (done) {
-      //wait for data to load
-      setTimeout(function () {
-        //menu items have been displayed
+      app.addEventListener('uqlibrary-menu-loaded', function (e) {
+        console.log(e.detail);
         var menuItems = app.querySelectorAll('paper-menu a');
         assert.isAbove(menuItems.length, 0);
         done();
-      }, 1000);
-    });
+      });
 
-    test('user details are not displayed', function (done) {
-      //wait for data to load
-      setTimeout(function () {
-        var userDetails = app.querySelector('#user');
-        assert.property(userDetails.attributes, 'hidden');
-        done();
-      }, 1000);
-    });
-  });
-
-  suite('uqlibrary-menu tests for auth user', function () {
-
-    var app;
-
-    setup(function () {
-      app = fixture('basic');
-      app.menuFile = url;
-      app.user = {
-        "id": "s1234567",
-        "class": "0",
-        "type": 18,
-        "homeLib": "sshia",
-        "name": "Mr. John Doe",
-        "mail": "s1234567@student.uq.edu.au",
-        "hasSession": true,
-        "canMasquerade": true
+      app._account = {
+        "hasSession": false
       };
+      app.applications = menu;
+    });
+/*
+    suite('uqlibrary-menu tests for anon user', function () {
+
+      var app;
+
+      setup(function () {
+        app = fixture('basic');
+        app.applications = menu;
+        app.user = {
+          "hasSession": false
+        };
+      });
+
+      test('menu items are displayed', function (done) {
+        //wait for data to load
+        setTimeout(function () {
+          //menu items have been displayed
+          var menuItems = app.querySelectorAll('paper-menu a');
+          assert.isAbove(menuItems.length, 0);
+          done();
+        }, 1000);
+      });
+
+      test('user details are not displayed', function (done) {
+        //wait for data to load
+        setTimeout(function () {
+          var userDetails = app.querySelector('#user');
+          assert.property(userDetails.attributes, 'hidden');
+          done();
+        }, 1000);
+      });
     });
 
-    test('menu items are displayed', function (done) {
-      //wait for data to load
-      setTimeout(function () {
-        //menu items have been displayed
-        var menuItems = app.querySelectorAll('paper-menu a');
-        assert.isAbove(menuItems.length, 0);
-        done();
-      }, 1000);
+    suite('uqlibrary-menu tests for auth user', function () {
 
+      var app;
+
+      setup(function () {
+        app = fixture('basic');
+        app.menuFile = url;
+        app.user = {
+          "id": "s1234567",
+          "class": "0",
+          "type": 18,
+          "homeLib": "sshia",
+          "name": "Mr. John Doe",
+          "mail": "s1234567@student.uq.edu.au",
+          "hasSession": true,
+          "canMasquerade": true
+        };
+      });
+
+      test('menu items are displayed', function (done) {
+        //wait for data to load
+        setTimeout(function () {
+          //menu items have been displayed
+          var menuItems = app.querySelectorAll('paper-menu a');
+          assert.isAbove(menuItems.length, 0);
+          done();
+        }, 1000);
+
+      });
+
+      test('user details are displayed', function (done) {
+        //wait for data to load
+        setTimeout(function () {
+          //user details have been displayed
+          var userDetails = app.querySelector('#user');
+          assert.notProperty(userDetails.attributes, 'hidden');
+          done();
+        }, 1000);
+
+      });
+*/
     });
-
-    test('user details are displayed', function (done) {
-      //wait for data to load
-      setTimeout(function () {
-        //user details have been displayed
-        var userDetails = app.querySelector('#user');
-        assert.notProperty(userDetails.attributes, 'hidden');
-        done();
-      }, 1000);
-
-    });
-
-  });
 
 </script>
 

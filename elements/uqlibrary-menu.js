@@ -37,7 +37,7 @@
       /**
        * Holds the user's account
        */
-      user: {
+      _account: {
         type: Object,
         value: {
           hasSession: false
@@ -51,15 +51,30 @@
       testMode: {
         type: Object,
         value: false
+      },
+      /**
+       * @type Boolean
+       */
+      showHeader: {
+        type: Object,
+        value: false
+      },
+      /**
+       * The header image to be used
+       */
+      headerImage: {
+        type: String,
+        value: ''
       }
-    },
+    }
+    ,
     ready: function () {
       var self = this;
 
       // Load the user's account
       this.$.apiAccount.addEventListener('uqlibrary-api-account-loaded', function (e) {
         if (e.detail.hasSession) {
-          self.user = e.detail;
+          self._account = e.detail;
           self.$.apiApplications.get();
         }
       });
@@ -80,7 +95,6 @@
      * @private
      */
     _menuItemClicked: function (e) {
-      console.log(e);
       this.fire("uqlibrary-menu-item-clicked", e.detail);
     },
     /**
@@ -110,6 +124,47 @@
       }
       
       this.fire('uqlibrary-menu-loaded', this.applications);
+    },
+    /**
+     * Toggles the drawer panel of the main UQL app
+     * @private
+     */
+    _toggleDrawerPanel: function () {
+      this.fire('uqlibrary-toggle-drawer');
+    },
+    /**
+     * Returns whether the user is on a mobile device
+     * @returns {boolean}
+     * @private
+     */
+    _isMobile: function () {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    },
+    /**
+     * Called when the "skipNavigation" button is focused
+     * @param e
+     * @private
+     */
+    _skipNavigationFocused: function (e) {
+      this.$$('.skip-navigation').style.left = 'calc(50% - 100px)';
+      this.$$('.skip-navigation').style.top = "20px";
+    },
+    /**
+     * Called when the "skipNavigation" button loses focus
+     * @param e
+     * @private
+     */
+    _skipNavigationBlurred: function (e) {
+      this.$$('.skip-navigation').style.left = '-20000px';
+      this.$$('.skip-navigation').style.top = "-20000px";
+    },
+    /**
+     * Skips navigation by moving to the "after" span. Will prefer to navigate to the Mega Menu's after
+     * @param e
+     * @private
+     */
+    _skipNavigation: function (e) {
+      this.$.content.focus();
     }
   })
 })();

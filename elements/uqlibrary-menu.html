@@ -25,7 +25,7 @@ Example:
 
     /** Top of menu styles */
     .account {
-      background: url('../images/top.jpg') 100%;
+      /*background: url('../images/top.jpg') 100%;*/
       background-size: cover;
       border-bottom: 1px solid #CCC;
     }
@@ -54,6 +54,10 @@ Example:
     }
 
     /** Menu item styles */
+    paper-menu.menu {
+      padding: 0;
+    }
+
     paper-menu.menu a {
       @apply(--layout-flex);
       @apply(--layout-horizontal);
@@ -88,15 +92,24 @@ Example:
   <!-- Template -->
   <template>
     <uqlibrary-api-account id="apiAccount"></uqlibrary-api-account>
-    <uqlibrary-api-applications id="apiApplications" user="{{user}}"></uqlibrary-api-applications>
+    <uqlibrary-api-applications id="apiApplications" user="{{_account}}"></uqlibrary-api-applications>
+
+    <paper-button class="skip-navigation"
+                  aria-label="skip navigation"
+                  title="Skip navigation"
+                  on-focus="_skipNavigationFocused"
+                  on-blur="_skipNavigationBlurred"
+                  on-tap="_skipNavigation">
+      Skip navigation
+    </paper-button>
 
     <!-- Top of menu -->
-    <template is="dom-if" if="{{_account.hasSession}}">
-      <div class="account">
-        <div class="gradient">
+    <template is="dom-if" if="{{_account.hasSession && showHeader}}">
+      <div class="account" style="background: url({{headerImage}}) 100%">
+        <div class="gradient" id="">
           <div class="details flex">
-            <div class="menu inverse">{{_account.name}}</div>
-            <div class="menu inverse">{{_account.mail}}</div>
+            <div class="menu inverse">[[_account.name]]</div>
+            <div class="menu inverse">[[_account.mail]]</div>
           </div>
         </div>
       </div>
@@ -127,7 +140,24 @@ Example:
           </template>
         </template>
       </template>
+
+      <!-- Logout button -->
+      <template is="dom-if" if="[[_account.hasSession]]">
+        <a href aria-label="Logout" on-tap="_logout">
+          <iron-icon class="icon" icon="lock"></iron-icon>
+          <div class="label">Logout</div>
+        </a>
+      </template>
+
+      <!-- Close button -->
+      <template is="dom-if" if="[[_isMobile()]]">
+        <a href aria-label="Close menu" on-tap="_toggleDrawerPanel">
+          <iron-icon class="icon" icon="close"></iron-icon>
+          <div class="label">Close Menu</div>
+        </a>
+      </template>
     </paper-menu>
+    <div id="content" tabindex="0"></div>
   </template>
 
   <!-- Location of the script -->

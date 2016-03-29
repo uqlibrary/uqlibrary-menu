@@ -44,15 +44,6 @@
         }
       },
       /**
-       * Only to be used by unit and integration tests
-       * @private
-       * @type Boolean
-       */
-      testMode: {
-        type: Object,
-        value: false
-      },
-      /**
        * @type Boolean
        */
       showHeader: {
@@ -110,10 +101,7 @@
         } else {
           item.isLink = true;
 
-          if (this.testMode) {
-            item.href = "#";
-            item.route = item.link.substring(1);
-          } else if (item.link.indexOf("http") == 0) {
+          if (item.link.indexOf("http") == 0) {
             item.isExternal = true;
           } else {
             item.isExternal = false;
@@ -165,6 +153,16 @@
      */
     _skipNavigation: function (e) {
       this.$.content.focus();
+    },
+    /**
+     * Performs the logout
+     * @param e
+     * @private
+     */
+    _logout: function (e) {
+      this._account = {};
+      this.fire("uqlibrary-menu-logout");
+      this.$.accountApi.logout();
     }
   })
 })();

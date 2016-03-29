@@ -26,7 +26,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <test-fixture id="basic">
   <template>
-    <uqlibrary-menu id="app" auto-load="false" test-mode="true"></uqlibrary-menu>
+    <uqlibrary-menu id="app" auto-load="false" show-header="true" header-image="../images/top.jpg"></uqlibrary-menu>
   </template>
 </test-fixture>
 
@@ -46,9 +46,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       "description": "Return to UQ Library Home",
       "icon": "home",
       "link": "https://www.library.uq.edu.au/"
-    },
-    {
-      "isDivider": true
     },
     {
       "app": "uqlibrary-chat",
@@ -155,9 +152,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       "route": "masquerade"
     },
     {
-      "isDivider": true
-    },
-    {
       "app": "uqlibrary-feedback",
       "title": "Feedback",
       "description": "Leave feedback for my library",
@@ -179,7 +173,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     test('it should load menu items', function (done) {
       app.addEventListener('uqlibrary-menu-loaded', function (e) {
         assert.isAbove(e.detail.length, 0);
-        done();
+
+        setTimeout(function () {
+          var menuItems = document.querySelectorAll('paper-menu.menu a');
+          assert.equal(menuItems.length, e.detail.length);
+          done();
+        }, 100);
       });
 
       app._account = {
@@ -191,92 +190,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     test('it should not not show all menu items for anon users', function (done) {
 
       app.addEventListener('uqlibrary-menu-loaded', function (e) {
-        console.log(e.detail);
-        var menuItems = app.querySelectorAll('paper-menu a');
-        assert.isAbove(menuItems.length, 0);
-        done();
+        var count = 0;
+        for (var i = 0; i < e.detail.length; i++) {
+          if (!e.detail[i].isDivider) count++;
+        }
+
+        setTimeout(function () {
+          var menuItems = document.querySelectorAll('paper-menu.menu a');
+          assert.equal(menuItems.length, count);
+          done();
+        }, 500);
       });
 
       app._account = {
         "hasSession": false
       };
-      app.applications = menu;
+      app.$.apiApplications.get();
     });
-/*
-    suite('uqlibrary-menu tests for anon user', function () {
-
-      var app;
-
-      setup(function () {
-        app = fixture('basic');
-        app.applications = menu;
-        app.user = {
-          "hasSession": false
-        };
-      });
-
-      test('menu items are displayed', function (done) {
-        //wait for data to load
-        setTimeout(function () {
-          //menu items have been displayed
-          var menuItems = app.querySelectorAll('paper-menu a');
-          assert.isAbove(menuItems.length, 0);
-          done();
-        }, 1000);
-      });
-
-      test('user details are not displayed', function (done) {
-        //wait for data to load
-        setTimeout(function () {
-          var userDetails = app.querySelector('#user');
-          assert.property(userDetails.attributes, 'hidden');
-          done();
-        }, 1000);
-      });
-    });
-
-    suite('uqlibrary-menu tests for auth user', function () {
-
-      var app;
-
-      setup(function () {
-        app = fixture('basic');
-        app.menuFile = url;
-        app.user = {
-          "id": "s1234567",
-          "class": "0",
-          "type": 18,
-          "homeLib": "sshia",
-          "name": "Mr. John Doe",
-          "mail": "s1234567@student.uq.edu.au",
-          "hasSession": true,
-          "canMasquerade": true
-        };
-      });
-
-      test('menu items are displayed', function (done) {
-        //wait for data to load
-        setTimeout(function () {
-          //menu items have been displayed
-          var menuItems = app.querySelectorAll('paper-menu a');
-          assert.isAbove(menuItems.length, 0);
-          done();
-        }, 1000);
-
-      });
-
-      test('user details are displayed', function (done) {
-        //wait for data to load
-        setTimeout(function () {
-          //user details have been displayed
-          var userDetails = app.querySelector('#user');
-          assert.notProperty(userDetails.attributes, 'hidden');
-          done();
-        }, 1000);
-
-      });
-*/
-    });
+  });
 
 </script>
 

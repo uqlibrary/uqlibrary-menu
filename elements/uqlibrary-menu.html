@@ -27,7 +27,7 @@ Example:
     .account {
       /*background: url('../images/top.jpg') 100%;*/
       background-size: cover;
-      border-bottom: 1px solid #CCC;
+      border-bottom: 1px solid var(--menu-border-color);
     }
 
     .gradient {
@@ -84,9 +84,10 @@ Example:
       background-color: var(--menu-hover-background-color);
     }
 
-    .divider {
-      border-bottom: 1px solid var(--menu-border-color);
+    paper-menu.menu a.divider {
+      border-top: 1px solid var(--menu-border-color);
     }
+
   </style>
 
   <!-- Template -->
@@ -118,22 +119,18 @@ Example:
     <!-- Menu -->
     <paper-menu class="menu" attr-for-selected="data-route" selected="[[route]]">
       <template is="dom-repeat" items="[[ applications ]]">
-        <!-- Divider -->
-        <template is="dom-if" if="[[item.isDivider]]">
-          <div class="divider"></div>
-        </template>
         <!-- Menu item -->
         <template is="dom-if" if="[[item.isLink]]">
           <!-- External link -->
           <template is="dom-if" if="[[item.isExternal]]">
-            <a href="[[item.link]]" aria-label="[[item.description]]" on-tap="_menuItemClicked">
+            <a href="[[item.link]]" class$="[[_hasDivider(index)]]" aria-label="[[item.description]]" on-tap="_menuItemClicked">
               <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
               <div class="label">[[item.title]]</div>
             </a>
           </template>
           <!-- Internal link -->
           <template is="dom-if" if="[[!item.isExternal]]">
-            <a data-route$="[[item.route]]" href=".[[item.link]]" aria-label="[[item.description]]" on-tap="_menuItemClicked">
+            <a data-route$="[[item.route]]" class$="[[_hasDivider(index)]]" href=".[[item.link]]" aria-label="[[item.description]]" on-tap="_menuItemClicked">
               <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
               <div class="label">[[item.title]]</div>
             </a>

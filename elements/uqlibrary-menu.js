@@ -57,8 +57,7 @@
         type: String,
         value: ''
       }
-    }
-    ,
+    },
     ready: function () {
       var self = this;
 
@@ -127,6 +126,16 @@
      */
     _isMobile: function () {
       return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    },
+    /**
+     * returns true if application before current application is a divider
+     * @param index
+     * @private
+     */
+    _hasDivider: function (index) {
+      if (index > 0 && this.applications.length > index && this.applications[index-1].isDivider) {
+        return 'divider';
+      }
     },
     /**
      * Called when the "skipNavigation" button is focused

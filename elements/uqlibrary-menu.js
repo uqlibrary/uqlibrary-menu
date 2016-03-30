@@ -66,6 +66,10 @@
         if (e.detail.hasSession) {
           self._account = e.detail;
           self.$.apiApplications.get();
+
+          if (self.headerImage && self.showHeader) {
+            self.$$('.account').style.background = "url(" + self.headerImage + ") 100%";
+          }
         }
       });
 
@@ -78,9 +82,6 @@
         this.$.apiAccount.get();
         this.$.apiApplications.get();
       }
-    },
-    attached: function () {
-      this.$$('.account').style.background = "url(" + this.headerImage + ") 100%";
     },
     /**
      * Called when a menu item has been clicked

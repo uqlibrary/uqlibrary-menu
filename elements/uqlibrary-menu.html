@@ -99,15 +99,17 @@ Example:
   <template>
     <uqlibrary-api-account id="apiAccount"></uqlibrary-api-account>
     <uqlibrary-api-applications id="apiApplications" user="{{_account}}"></uqlibrary-api-applications>
-
-    <paper-button class="skip-navigation"
-                  aria-label="skip navigation"
-                  title="Skip navigation"
-                  on-focus="_skipNavigationFocused"
-                  on-blur="_skipNavigationBlurred"
-                  on-tap="_skipNavigation">
-      Skip navigation
-    </paper-button>
+    
+    <div>
+      <paper-button class="skip-navigation"
+                    aria-label="skip navigation"
+                    title="Skip navigation"
+                    on-focus="_skipNavigationFocused"
+                    on-blur="_skipNavigationBlurred"
+                    on-tap="_skipNavigation">
+        Skip navigation
+      </paper-button>
+    </div>
 
     <!-- Top of menu -->
     <template is="dom-if" if="{{_account.hasSession && showHeader}}">

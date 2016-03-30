@@ -79,6 +79,9 @@
         this.$.apiApplications.get();
       }
     },
+    attached: function () {
+      this.$$('.account').style.background = "url(" + this.headerImage + ") 100%";
+    },
     /**
      * Called when a menu item has been clicked
      * @param e

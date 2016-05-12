@@ -174,7 +174,6 @@
      * @private
      */
     _logout: function (e) {
-      this._account = {};
       this.fire("uqlibrary-menu-logout");
       this.$.apiAccount.logout();
     }

@@ -151,7 +151,7 @@ Example:
 
       <!-- Logout button -->
       <template is="dom-if" if="[[_account.hasSession]]">
-        <a href aria-label="Logout" on-tap="_logout">
+        <a href="javascript: void(0)" aria-label="Logout" on-tap="_logout">
           <iron-icon class="icon" icon="lock"></iron-icon>
           <div class="label">Logout</div>
         </a>

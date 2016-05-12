@@ -10,11 +10,12 @@
     "/tests/"
   ],
   "dependencies": {
+    "polymer": "Polymer#^1.4",
     "iron-elements": "PolymerElements/iron-elements#1.0.3",
     "paper-elements": "PolymerElements/paper-elements#1.0.1",
     "neon-animation": "PolymerElements/neon-animation#^1.0.0",
-    "uqlibrary-api": "uqlibrary/uqlibrary-api#polymer1.0",
-    "uqlibrary-styles": "uqlibrary/uqlibrary-styles#master"
+    "uqlibrary-api": "uqlibrary/uqlibrary-api#v1.0.6",
+    "uqlibrary-styles": "uqlibrary/uqlibrary-styles#v1.0.0"
   },
   "devDependencies": {
     "web-component-tester": "*",

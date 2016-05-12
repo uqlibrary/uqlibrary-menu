@@ -106,6 +106,7 @@
 
           if (item.link.indexOf("http") == 0) {
             item.isExternal = true;
+            item.target = (item.target ? item.target : '_self');
           } else {
             item.isExternal = false;
             item.route = item.link.substring(1);
@@ -175,7 +176,7 @@
     _logout: function (e) {
       this._account = {};
       this.fire("uqlibrary-menu-logout");
-      this.$.accountApi.logout();
+      this.$.apiAccount.logout();
     }
   })
 })();

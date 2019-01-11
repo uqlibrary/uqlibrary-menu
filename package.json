@@ -1,6 +1,6 @@
 {
   "name": "uqlibrary-menu",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Element providing a the library main apps menu.",
   "license": "ISC",
   "main": "index.html",

@@ -16,14 +16,31 @@
 
 <div class="layout" style="background-color: #f2f2f2; height: 100%;">
   <div style="width: 300px; height: 100%;">
-    <uqlibrary-menu show-header="true" header-image="../images/top.jpg"></uqlibrary-menu>
+    <uqlibrary-menu show-header="true" header-image="../images/top.jpg" menu-file="test/menu.json"></uqlibrary-menu>
   </div>
 </div>
 
 <script>
   (function () {
-    document.cookie="UQLMockData=enabled";
-    document.cookie="UQLMockData-PType=1";
+
+    var element = document.querySelector('uqlibrary-menu');
+
+    element.user = {
+      "id": "s1234567",
+      "class": "0",
+      "type": 18,
+      "homeLib": "sshia",
+      "name": "Mr. John Doe",
+      "mail": "s1234567@student.uq.edu.au",
+      "hasSession": true,
+      "canMasquerade": true
+    };
+
+    element.onMenuSelect = function(e) {
+      console.log(e.detail.item);
+    };
+
+
   }());
 </script>
 </body>

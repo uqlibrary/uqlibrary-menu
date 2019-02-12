@@ -21,7 +21,7 @@
       },
       /**
        * Whether to load the menu items automatically
-       * @type Boolean
+       * @type Object
        */
       autoLoad: {
         type: Object,
@@ -44,7 +44,7 @@
         }
       },
       /**
-       * @type Boolean
+       * @type Object
        */
       showHeader: {
         type: Object,

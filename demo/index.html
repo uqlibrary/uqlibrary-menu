@@ -9,8 +9,13 @@
 
   <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
 
-  <link rel="import" href="../../iron-flex-layout/classes/iron-flex-layout.html">
-  <link rel="import" href="../elements/uqlibrary-menu.html">
+  <script>
+    document.cookie="UQLMockData=enabled";
+    document.cookie="UQLMockData-PType=1";
+  </script>
+
+  <link rel="import" href="../../iron-flex-layout/classes/iron-flex-layout.html" />
+  <link rel="import" href="../elements/uqlibrary-menu.html" />
 </head>
 <body class="fullbleed">
 
@@ -39,7 +44,6 @@
     element.onMenuSelect = function(e) {
       console.log(e.detail.item);
     };
-
 
   }());
 </script>

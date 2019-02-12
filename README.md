@@ -12,6 +12,22 @@ Element features:
 - loads menu items from json file
 - notifies client for menu items loaded and menu item selected
 
+## Getting Started
+
+Install Node.JS and run the following in the project directory:
+
+```sh
+npm install -g bower web-component-tester polymer-cli
+npm install
+bower install
+```
+
+## Developing
+
+- Please adhere to the Polymer code style guide provided at [Style Guide](http://polymerelements.github.io/style-guide/).
+- Colors and common styles are imported (bower install) from [uqlibrary-styles](http://github.com/uqlibrary/uqlibrary-styles).
+- A preview of the component can be viewed locally by running `npm start`. Use the second URL from the command output.
+
 ## Example
 
 ```html

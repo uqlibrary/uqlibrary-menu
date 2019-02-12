@@ -4,11 +4,10 @@
 `<uqlibrary-menu>` is a the main menu of the UQL Apps
 
 Example:
+
     <uqlibrary-menu></uqlibrary-menu>
 
 @demo
-
-@demo demo/index.html Demo of the Full view
 -->
 <dom-module id="uqlibrary-menu">
   <!-- Template -->
@@ -39,8 +38,8 @@ Example:
         background: -ms-linear-gradient(top,transparent 30%,#000 100%);
         background: linear-gradient(to bottom,transparent 30%,#000 100%);
 
-        @apply(--layout-horizontal-reverse);
-        @apply(--layout-end-justified);
+        @apply --layout-horizontal-reverse;
+        @apply --layout-end-justified;
       }
 
       .details {
@@ -55,7 +54,7 @@ Example:
       }
 
       .gradient paper-icon-button {
-        @apply(--layout-self-end);
+        @apply --layout-self-end;
         color: #FFF;
         margin-bottom: 8px;
         margin-right: 8px;
@@ -68,17 +67,17 @@ Example:
       }
 
       paper-menu.menu a {
-        @apply(--layout-flex);
-        @apply(--layout-horizontal);
-        @apply(--layout-center);
+        @apply --layout-flex;
+        @apply --layout-horizontal;
+        @apply --layout-center;
 
-        @apply(--menu-item);
+        @apply --menu-item;
 
         border-top: 1px solid var(--menu-open-background-color);
       }
 
       paper-menu.menu a .label {
-        @apply(--layout-flex);
+        @apply --layout-flex;
       }
 
       paper-menu.menu a.iron-selected {

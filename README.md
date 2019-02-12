@@ -12,6 +12,8 @@ Element features:
 - loads menu items from json file
 - notifies client for menu items loaded and menu item selected
 
+Full documentation and demo can be found in [GitHub Pages](https://uqlibrary.github.io/uqlibrary-menu/uqlibrary-menu/).
+
 ## Getting Started
 
 Install Node.JS and run the following in the project directory:
@@ -26,6 +28,7 @@ bower install
 
 - Please adhere to the Polymer code style guide provided at [Style Guide](http://polymerelements.github.io/style-guide/).
 - Colors and common styles are imported (bower install) from [uqlibrary-styles](http://github.com/uqlibrary/uqlibrary-styles).
+- GitHub pages should be updated after every commit to `master` branch by running `bin/generate-gh-pages.sh`
 - A preview of the component can be viewed locally by running `npm start`. Use the second URL from the command output.
 
 ## Example

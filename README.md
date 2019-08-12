@@ -40,5 +40,5 @@ bower install
   on-selected-menu-item-changed="closeMenu"
   on-menu-items-changed="menuReloaded"
   on-logout-clicked="logout"
->
+></uqlibrary-menu>
 ```

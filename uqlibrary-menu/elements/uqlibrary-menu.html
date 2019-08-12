@@ -1,0 +1,179 @@
+<link rel="import" href="elements.html">
+
+<!--
+`<uqlibrary-menu>` is a the main menu of the UQL Apps
+
+Example:
+
+    <uqlibrary-menu></uqlibrary-menu>
+
+@demo
+-->
+<dom-module id="uqlibrary-menu">
+  <!-- Template -->
+  <template>
+    <!-- All element styles -->
+    <style is="custom-style" include="iron-flex iron-flex-alignment common-styles">
+      :host {
+        font-family: var(--font-family);
+        font-size: var(--body-font-size);
+
+        height: 100%;
+        display: block;
+        background-color: #FFF;
+        overflow-y: auto;
+      }
+
+      /** Top of menu styles */
+      .account {
+        /*background: url('../images/top.jpg') 100%;*/
+        background-size: cover;
+        border-bottom: 1px solid var(--menu-border-color);
+      }
+
+      .gradient {
+        background: -moz-linear-gradient(top,transparent 30%,#000 100%);
+        background: -webkit-linear-gradient(top,transparent 30%,#000 100%);
+        background: -o-linear-gradient(top,transparent 30%,#000 100%);
+        background: -ms-linear-gradient(top,transparent 30%,#000 100%);
+        background: linear-gradient(to bottom,transparent 30%,#000 100%);
+
+        @apply --layout-horizontal-reverse;
+        @apply --layout-end-justified;
+      }
+
+      .details {
+        padding: 110px 14px 14px 16px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+
+      .details .menu {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      .gradient paper-icon-button {
+        @apply --layout-self-end;
+        color: #FFF;
+        margin-bottom: 8px;
+        margin-right: 8px;
+        padding: 2px;
+      }
+
+      /** Menu item styles */
+      paper-menu.menu {
+        padding: 0;
+      }
+
+      paper-menu.menu a {
+        @apply --layout-flex;
+        @apply --layout-horizontal;
+        @apply --layout-center;
+
+        @apply --menu-item;
+
+        border-top: 1px solid var(--menu-open-background-color);
+      }
+
+      paper-menu.menu a .label {
+        @apply --layout-flex;
+      }
+
+      paper-menu.menu a.iron-selected {
+        font-weight: 500 !important;
+      }
+
+      paper-menu.menu iron-icon.icon {
+        margin-right: 30px;
+      }
+
+      paper-menu.menu a:hover {
+        background-color: var(--menu-hover-background-color);
+      }
+
+      paper-menu.menu a.divider {
+        border-top: 1px solid var(--menu-border-color);
+      }
+
+      .icon {
+        color: rgba(0,0,0,.54);
+      }
+
+
+    </style>
+
+    <uqlibrary-api-account id="apiAccount"></uqlibrary-api-account>
+    <uqlibrary-api-applications id="apiApplications" user="{{_account}}"></uqlibrary-api-applications>
+
+    <div>
+      <paper-button class="skip-navigation"
+                    aria-label="skip navigation"
+                    title="Skip navigation"
+                    on-focus="_skipNavigationFocused"
+                    on-blur="_skipNavigationBlurred"
+                    on-tap="_skipNavigation">
+        Skip navigation
+      </paper-button>
+    </div>
+
+    <!-- Top of menu -->
+    <template is="dom-if" if="{{_account.hasSession && showHeader}}">
+      <div class="account">
+        <div class="gradient" id="">
+          <div class="details flex">
+            <div class="menu inverse">[[_account.name]]</div>
+            <div class="menu inverse">[[_account.mail]]</div>
+          </div>
+        </div>
+      </div>
+    </template>
+
+    <!-- Menu -->
+    <paper-menu class="menu" attr-for-selected="data-route" selected="[[route]]">
+      <template is="dom-repeat" items="[[ applications ]]">
+        <!-- Menu item -->
+        <template is="dom-if" if="[[item.isLink]]">
+          <!-- External link -->
+          <template is="dom-if" if="[[item.isExternal]]">
+            <a href="[[item.link]]"
+               class$="[[_hasDivider(index)]]"
+               aria-label="[[item.description]]"
+               on-tap="_menuItemClicked"
+               target="[[item.target]]">
+              <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
+              <div class="label">[[item.title]]</div>
+            </a>
+          </template>
+          <!-- Internal link -->
+          <template is="dom-if" if="[[!item.isExternal]]">
+            <a data-route$="[[item.route]]" class$="[[_hasDivider(index)]]" href="./#![[item.route]]" aria-label="[[item.description]]" on-tap="_menuItemClicked">
+              <iron-icon class="icon" icon="[[item.icon]]"></iron-icon>
+              <div class="label">[[item.title]]</div>
+            </a>
+          </template>
+        </template>
+      </template>
+
+      <!-- Logout button -->
+      <template is="dom-if" if="[[_account.hasSession]]">
+        <a href="javascript: void(0)" aria-label="Logout" on-tap="_logout">
+          <iron-icon class="icon" icon="lock"></iron-icon>
+          <div class="label">Logout</div>
+        </a>
+      </template>
+
+      <!-- Close button -->
+      <template is="dom-if" if="[[_isMobile()]]">
+        <a href aria-label="Close menu" on-tap="_toggleDrawerPanel">
+          <iron-icon class="icon" icon="close"></iron-icon>
+          <div class="label">Close Menu</div>
+        </a>
+      </template>
+    </paper-menu>
+    <div id="content" tabindex="0"></div>
+  </template>
+
+  <!-- Location of the script -->
+  <script src="uqlibrary-menu.js"></script>
+</dom-module>
